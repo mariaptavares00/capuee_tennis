@@ -42,7 +42,7 @@ def get_tennis_data():
 
     return raw_tennis_df
 
-def filtered_tennis_df
+def filtered_tennis_df ()
 
     raw_tennis_df = get_tennis_data()
 
