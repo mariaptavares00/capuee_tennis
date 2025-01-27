@@ -65,7 +65,7 @@ def get_tennis_data():
     tennis_df['age'] = pd.to_numeric(tennis_df['age'])
 
     return tennis_df
-#tenis_df = get_tennis_data()
+#tennis_df = get_tennis_data()
 
 
 # -----------------------------------------------------------------------------
