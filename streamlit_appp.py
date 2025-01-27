@@ -19,7 +19,7 @@ st.set_page_config(
 url = "https://sports-information.p.rapidapi.com/tennis/rankings"
 querystring = {"year":"2019"}
 
-@st.cache_data
+#@st.cache_data
 def get_tennis_data():
     """Grab tennis data from a CSV file.
 
@@ -65,7 +65,7 @@ def get_tennis_data():
     tennis_df['age'] = pd.to_numeric(tennis_df['age'])
 
     return tennis_df
-tennis_df = get_tennis_data()
+tenis_df = get_tennis_data()
 
 
 # -----------------------------------------------------------------------------
