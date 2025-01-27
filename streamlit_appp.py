@@ -29,7 +29,7 @@ def get_tennis_data():
     headers = {
 	"x-rapidapi-key": "60751bcf50msh7f1cc568ebc9aeep1ad40bjsn94769488bc2e",
 	"x-rapidapi-host": "sports-information.p.rapidapi.com"
-}
+    }
 
     response = requests.get(url, headers=headers, params=querystring)
 
