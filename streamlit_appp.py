@@ -16,8 +16,8 @@ st.set_page_config(
 # -----------------------------------------------------------------------------
 # Declare some useful functions.
 
-url = "https://sports-information.p.rapidapi.com/tennis/rankings"
-querystring = {"year":"2019"}
+#url = "https://sports-information.p.rapidapi.com/tennis/rankings"
+#querystring = {"year":"2019"}
 
 @st.cache_data
 def get_tennis_data():
@@ -26,19 +26,19 @@ def get_tennis_data():
     This uses caching to avoid having to read the file every time.
     """
 
-    headers = {
-	"x-rapidapi-key": "60751bcf50msh7f1cc568ebc9aeep1ad40bjsn94769488bc2e",
-	"x-rapidapi-host": "sports-information.p.rapidapi.com"
-    }
+    #headers = {
+	#"x-rapidapi-key": "60751bcf50msh7f1cc568ebc9aeep1ad40bjsn94769488bc2e",
+	#"x-rapidapi-host": "sports-information.p.rapidapi.com"
+    #}
 
-    response = requests.get(url, headers=headers, params=querystring)
+    #response = requests.get(url, headers=headers, params=querystring)
 
-    raw_tennis_df = response.json()
+    #raw_tennis_df = response.json()
 
 
     # Load data from CSV
-    #DATA_FILENAME = Path(__file__).parent / 'data/tennis_data.csv'
-    #raw_tennis_df = pd.read_csv(DATA_FILENAME)
+    DATA_FILENAME = Path(__file__).parent / 'data/tennis_data.csv'
+    raw_tennis_df = pd.read_csv(DATA_FILENAME)
 
     min_rank = 1
     max_rank = 150
