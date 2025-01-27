@@ -72,7 +72,7 @@ def filtered_tennis_df():
 
     return tennis_df
     
-tenis_df = filtered_tennis_df()
+tennis_df = filtered_tennis_df()
 
 
 # -----------------------------------------------------------------------------
