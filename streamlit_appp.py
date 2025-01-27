@@ -52,6 +52,9 @@ def get_tennis_data():
     tennis_df = filtered_tennis_df[[
         "current", "points", "displayName", "country", "countryFlag", "picture", "age"
     ]]
+    # convert from strings to integers
+    tennis_df['current'] = pd.to_numeric(tennis_df['current'])
+    tennis_df['age'] = pd.to_numeric(tennis_df['age'])
 
     return tennis_df
 
