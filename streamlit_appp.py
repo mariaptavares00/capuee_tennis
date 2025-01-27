@@ -121,7 +121,7 @@ st.markdown('This map shows the top {max_value} tennis players in 2019, their bi
 
 # Create the map using Plotly Express
 fig = px.scatter_geo(
-    df,
+    tennis_df,
     locations="country",  # Geolocate using country names
     locationmode="country names",  # Match with country names
     size="points",  # Marker size based on points
