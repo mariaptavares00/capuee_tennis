@@ -1,10 +1,10 @@
-# :earth_americas: GDP dashboard template
+# TENNIS DATA FOR 2019
 
-A simple Streamlit app showing the GDP of different countries in the world.
+A Streamlit app showing the Tennis data for the year of 2019 
 
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://gdp-dashboard-template.streamlit.app/)
 
-### How to run it on your own machine
+### run it here
 
 1. Install the requirements
 
