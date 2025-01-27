@@ -104,6 +104,7 @@ st.header('Tennis Rankings', divider='gray')
 
 ''
 
+
 st.line_chart(
     filtered_tennis_df,
     x='Year',
@@ -115,32 +116,32 @@ st.line_chart(
 ''
 
 
-first_year = gdp_df[gdp_df['Year'] == from_year]
-last_year = gdp_df[gdp_df['Year'] == to_year]
+st.title('Interactive Map of Tennis Players - 2019 Rankings')
 
-st.header(f'GDP in {to_year}', divider='gray')
+st.markdown('This map shows the top {max_value} tennis players in 2019, their birth countries and ranking points')
 
-''
+# Create the map using Plotly Express
+fig = px.scatter_geo(
+    df,
+    locations="country",  # Geolocate using country names
+    locationmode="country names",  # Match with country names
+    size="points",  # Marker size based on points
+    hover_name="displayName",  # Show player's full name on hover
+    hover_data={"points": True, "country": True, "age": True},  # Show additional info
+    title="Top Tennis Players by Country (2019)",
+    projection="natural earth",  # Use a natural earth projection
+)
 
-cols = st.columns(4)
+# Customize map layout
+fig.update_layout(
+    geo=dict(
+        showland=True,
+        landcolor="lightgray",
+        showcountries=True,
+        countrycolor="white"
+    ),
+    margin={"r": 0, "t": 30, "l": 0, "b": 0},
+)
 
-for i, country in enumerate(selected_countries):
-    col = cols[i % len(cols)]
-
-    with col:
-        first_gdp = first_year[first_year['Country Code'] == country]['GDP'].iat[0] / 1000000000
-        last_gdp = last_year[last_year['Country Code'] == country]['GDP'].iat[0] / 1000000000
-
-        if math.isnan(first_gdp):
-            growth = 'n/a'
-            delta_color = 'off'
-        else:
-            growth = f'{last_gdp / first_gdp:,.2f}x'
-            delta_color = 'normal'
-
-        st.metric(
-            label=f'{country} GDP',
-            value=f'{last_gdp:,.0f}B',
-            delta=growth,
-            delta_color=delta_color
-        )
+# Display the map in Streamlit
+st.plotly_chart(fig, use_container_width=True)
