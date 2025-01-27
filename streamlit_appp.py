@@ -20,7 +20,7 @@ st.set_page_config(
 url = "https://sports-information.p.rapidapi.com/tennis/rankings"
 querystring = {"year":"2019"}
 
-#@st.cache_data
+@st.cache_data
 def get_tennis_data():
     """Grab tennis data from a CSV file.
 
