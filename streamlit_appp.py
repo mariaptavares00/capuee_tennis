@@ -40,6 +40,12 @@ def get_tennis_data():
     #DATA_FILENAME = Path(__file__).parent / 'data/tennis_data.csv'
     #raw_tennis_df = pd.read_csv(DATA_FILENAME)
 
+    return raw_tennis_df
+
+def filtered_tennis_df
+
+    raw_tennis_df = get_tennis_data()
+
     min_rank = 1
     max_rank = 150
 
@@ -65,7 +71,8 @@ def get_tennis_data():
     tennis_df['age'] = pd.to_numeric(tennis_df['age'])
 
     return tennis_df
-tennis_df = get_tennis_data()
+    
+tenis_df = filtered_tennis_df()
 
 
 # -----------------------------------------------------------------------------
