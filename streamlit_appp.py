@@ -55,6 +55,8 @@ def get_tennis_data():
 
     return tennis_df
 
+tennis_df = get_tennis_data()
+
 # -----------------------------------------------------------------------------
 # Draw the actual page
 
