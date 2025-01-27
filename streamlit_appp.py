@@ -17,31 +17,33 @@ st.set_page_config(
 # -----------------------------------------------------------------------------
 # Declare some useful functions.
 
-url = "https://sports-information.p.rapidapi.com/tennis/rankings"
-querystring = {"year":"2019"}
-
 @st.cache_data
 def get_tennis_data():
-    """Grab tennis data from a CSV file.
-
-    This uses caching to avoid having to read the file every time.
-    """
-
     headers = {
-	"x-rapidapi-key": "60751bcf50msh7f1cc568ebc9aeep1ad40bjsn94769488bc2e",
-	"x-rapidapi-host": "sports-information.p.rapidapi.com"
+        "x-rapidapi-key": "YOUR_RAPIDAPI_KEY",
+        "x-rapidapi-host": "sports-information.p.rapidapi.com",
     }
+
+    url = "https://sports-information.p.rapidapi.com/tennis/rankings"
+    querystring = {"year": "2019"}
 
     response = requests.get(url, headers=headers, params=querystring)
 
-    raw_tennis_df = response.json()
+    # Debug: Print the raw response
+    st.write("API Response:", response.json())
 
+    if response.status_code != 200:
+        st.error(f"API Error: {response.status_code}")
+        return pd.DataFrame()
 
-    # Load data from CSV
-    #DATA_FILENAME = Path(__file__).parent / 'data/tennis_data.csv'
-    #raw_tennis_df = pd.read_csv(DATA_FILENAME)
+    raw_data = response.json()
 
-    return raw_tennis_df
+    # If "data" is missing, stop here
+    if "data" not in raw_data:
+        st.error("The API response doesn't contain the expected 'data' key.")
+        return pd.DataFrame()
+
+    return pd.DataFrame(raw_data["data"])
 
 def filtered_tennis_df():
 
