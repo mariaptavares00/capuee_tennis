@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 from datetime import date, datetime, timedelta
+import plotly.express as px 
 
 # BEST OF TENNIS
 st.set_page_config(
