@@ -19,63 +19,52 @@ st.set_page_config(
 
 @st.cache_data
 def get_tennis_data():
-    headers = {
-        "x-rapidapi-key": "YOUR_RAPIDAPI_KEY",
-        "x-rapidapi-host": "sports-information.p.rapidapi.com",
-    }
+    # csv read from disk
+    try:
+        # Specify the file path for the CSV
+        DATA_FILENAME = Path(__file__).parent / 'data/tennis_data.csv'
 
-    url = "https://sports-information.p.rapidapi.com/tennis/rankings"
-    querystring = {"year": "2019"}
+        # Read the CSV file into a DataFrame
+        raw_tennis_df = pd.read_csv(DATA_FILENAME)
 
-    response = requests.get(url, headers=headers, params=querystring)
+        # Debug: Display the raw DataFrame
+        st.write("Raw Tennis Data:", raw_tennis_df.head())
 
-    # Debug: Print the raw response
-    st.write("API Response:", response.json())
+        # Columns to extract from the CSV
+        columns = ["current", "points", "displayName", "country", "countryFlag", "picture", "age"]
 
-    if response.status_code != 200:
-        st.error(f"API Error: {response.status_code}")
+        # Check for missing columns in the CSV
+        missing_columns = [col for col in columns if col not in raw_tennis_df.columns]
+        if missing_columns:
+            st.warning(f"Missing columns in the CSV: {missing_columns}")
+
+        # Filter the DataFrame to include only the desired columns
+        tennis_df = raw_tennis_df[[col for col in columns if col in raw_tennis_df.columns]]
+
+        # Ensure numeric columns are properly converted
+        numeric_columns = ["current", "points", "age"]
+        for col in numeric_columns:
+            if col in tennis_df.columns:
+                tennis_df[col] = pd.to_numeric(tennis_df[col], errors='coerce')
+
+        return tennis_df
+
+    except FileNotFoundError:
+        st.error("The file 'tennis_data.csv' was not found. Please ensure it's in the 'data' folder.")
+        return pd.DataFrame()
+    except Exception as e:
+        st.error(f"An error occurred while reading the data: {e}")
         return pd.DataFrame()
 
-    raw_data = response.json()
 
-    # If "data" is missing, stop here
-    if "data" not in raw_data:
-        st.error("The API response doesn't contain the expected 'data' key.")
-        return pd.DataFrame()
+# Call the function to load the tennis data
+tennis_df = get_tennis_data()
 
-    return pd.DataFrame(raw_data["data"])
-
-def filtered_tennis_df():
-
-    raw_tennis_df = get_tennis_data()
-
-    min_rank = 1
-    max_rank = 150
-
-    # Filter players based on their current ranking (between min_rank and max_rank)
-    #filtered_tennis_df = raw_tennis_df[
-    #    (raw_tennis_df["current"] >= min_rank) & (raw_tennis_df["current"] <= max_rank)
-    #]
-
-    # Selecting only the desired columns for the dashboard
-    #tennis_df = filtered_tennis_df[[
-    #    "current", "points", "displayName", "country", "countryFlag", "picture", "age"
-    #]]
-
-    tennis_df = raw_tennis_df[
-        "current", "points", "displayName", "country", "countryFlag", "picture", "age"
-    ]
-
-
-
-    # convert from strings to integers
-    tennis_df['current'] = pd.to_numeric(tennis_df['current'])
-    tennis_df['points'] = pd.to_numeric(tennis_df['points'])
-    tennis_df['age'] = pd.to_numeric(tennis_df['age'])
-
-    return tennis_df
-
-tennis_df = filtered_tennis_df()
+# Display the DataFrame in the Streamlit app
+if not tennis_df.empty:
+    st.dataframe(tennis_df)
+else:
+    st.warning("No data available to display.")
 
 
 # -----------------------------------------------------------------------------
