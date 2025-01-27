@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 from datetime import date, datetime, timedelta
-import plotly.express as px 
+import plotly.express as px
 
 # BEST OF TENNIS
 st.set_page_config(
@@ -151,25 +151,7 @@ st.plotly_chart(fig, use_container_width=True)
 ''
 ''
 
-
-# Filter the data
-filtered_tennis_df = tennis_df[
-    (tennis_df['country'].isin(selected_countries))
-    & (tennis_df['Year'] <= to_year)
-    & (from_year <= gdp_df['Year'])
-]
-
-st.header('Tennis Rankings', divider='gray')
-
-''
-
-
-st.line_chart(
-    filtered_tennis_df,
-    x='Year',
-    y='GDP',
-    color='Country Code',
-)
+st.title('Thank you!')
 
 ''
 ''
