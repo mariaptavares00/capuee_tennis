@@ -20,29 +20,27 @@ st.set_page_config(
 def get_tennis_data():
     """Grab tennis data from a CSV file.
 
-    This uses caching to avoid having to read the file every time. If we were
-    reading from an HTTP endpoint instead of a file, it's a good idea to set
-    a maximum age to the cache with the TTL argument: @st.cache_data(ttl='1d')
+    This uses caching to avoid having to read the file every time.
     """
 
-    # Instead of a CSV on disk, you could read from an HTTP endpoint here too.
-    DATA_FILENAME = Path(__file__).parent/'data/tennis_data.csv'
-    raw_gdp_df = pd.read_csv(DATA_FILENAME)
+    # Load data from CSV
+    DATA_FILENAME = Path(__file__).parent / 'data/tennis_data.csv'
+    raw_tennis_df = pd.read_csv(DATA_FILENAME)
 
     min_rank = 1
     max_rank = 100
 
-
     # Filter players based on their current ranking (between min_rank and max_rank)
-    tennis_df = tennis_df[(tennis_df["current"] >= min_rank) & (tennis_df["current"] <= max_rank)]
+    filtered_tennis_df = raw_tennis_df[
+        (raw_tennis_df["current"] >= min_rank) & (raw_tennis_df["current"] <= max_rank)
+    ]
 
     # Selecting only the desired columns for the dashboard
-    tennis_df = raw_tennis_df[["current", "points", "displayName", "country", "countryFlag", "picture", "age"]]
-
+    tennis_df = filtered_tennis_df[[
+        "current", "points", "displayName", "country", "countryFlag", "picture", "age"
+    ]]
 
     return tennis_df
-
-tennis_df = get_tennis_data()
 
 # -----------------------------------------------------------------------------
 # Draw the actual page
