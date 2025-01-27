@@ -44,20 +44,28 @@ def get_tennis_data():
     max_rank = 150
 
     # Filter players based on their current ranking (between min_rank and max_rank)
-    filtered_tennis_df = raw_tennis_df[
-        (raw_tennis_df["current"] >= min_rank) & (raw_tennis_df["current"] <= max_rank)
-    ]
+    #filtered_tennis_df = raw_tennis_df[
+    #    (raw_tennis_df["current"] >= min_rank) & (raw_tennis_df["current"] <= max_rank)
+    #]
 
     # Selecting only the desired columns for the dashboard
-    tennis_df = filtered_tennis_df[[
+    #tennis_df = filtered_tennis_df[[
+    #    "current", "points", "displayName", "country", "countryFlag", "picture", "age"
+    #]]
+
+    tennis_df = raw_tennis_df[
         "current", "points", "displayName", "country", "countryFlag", "picture", "age"
-    ]]
+    ]
+
+
+
     # convert from strings to integers
     tennis_df['current'] = pd.to_numeric(tennis_df['current'])
+    tennis_df['points'] = pd.to_numeric(tennis_df['points'])
     tennis_df['age'] = pd.to_numeric(tennis_df['age'])
 
     return tennis_df
-tennis_df = get_tennis_data()
+tenis_df = get_tennis_data()
 
 
 # -----------------------------------------------------------------------------
