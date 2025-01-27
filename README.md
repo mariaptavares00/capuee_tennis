@@ -2,7 +2,7 @@
 
 A Streamlit app showing the Tennis data for the year of 2019 
 
-[![Open in Streamlit](https://capueetennismaria.streamlit.app/))](https://gdp-dashboard-template.streamlit.app/)
+[![Open in Streamlit](https://capueetennismaria.streamlit.app/)(https://capueetennismaria.streamlit.app/)]
 
 ### run it here
 
