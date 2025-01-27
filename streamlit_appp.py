@@ -115,30 +115,6 @@ selected_countries = st.multiselect(
 ''
 ''
 ''
-
-# Filter the data
-filtered_tennis_df = tennis_df[
-    (tennis_df['country'].isin(selected_countries))
-    & (tennis_df['Year'] <= to_year)
-    & (from_year <= gdp_df['Year'])
-]
-
-st.header('Tennis Rankings', divider='gray')
-
-''
-
-
-st.line_chart(
-    filtered_tennis_df,
-    x='Year',
-    y='GDP',
-    color='Country Code',
-)
-
-''
-''
-
-
 st.title('Interactive Map of Tennis Players - 2019 Rankings')
 
 st.markdown('This map shows the top {max_value} tennis players in 2019, their birth countries and ranking points')
@@ -168,3 +144,31 @@ fig.update_layout(
 
 # Display the map in Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
+
+''
+''
+''
+
+
+# Filter the data
+filtered_tennis_df = tennis_df[
+    (tennis_df['country'].isin(selected_countries))
+    & (tennis_df['Year'] <= to_year)
+    & (from_year <= gdp_df['Year'])
+]
+
+st.header('Tennis Rankings', divider='gray')
+
+''
+
+
+st.line_chart(
+    filtered_tennis_df,
+    x='Year',
+    y='GDP',
+    color='Country Code',
+)
+
+''
+''
