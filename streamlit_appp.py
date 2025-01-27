@@ -40,17 +40,17 @@ def get_tennis_data():
     #DATA_FILENAME = Path(__file__).parent / 'data/tennis_data.csv'
     #raw_tennis_df = pd.read_csv(DATA_FILENAME)
 
-    min_rank = 1
-    max_rank = 150
+    #min_rank = 1
+    #max_rank = 150
 
     # Filter players based on their current ranking (between min_rank and max_rank)
-    filtered_tennis_df = raw_tennis_df[
-        (raw_tennis_df["current"] >= min_rank) & (raw_tennis_df["current"] <= max_rank)
-    ]
+    #filtered_tennis_df = raw_tennis_df[
+    #    (raw_tennis_df["current"] >= 1) & (raw_tennis_df["current"] <= 150)
+    #]
 
     # Selecting only the desired columns for the dashboard
-    tennis_df = filtered_tennis_df[[
-        "current", "points", "displayName", "country", "countryFlag", "picture", "age"
+    tennis_df = raw_tennis_df[[
+        "current", "points", "displayName", "age"
     ]]
 
     return tennis_df
