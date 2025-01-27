@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import math
+import requests
 from pathlib import Path
 import numpy as np
 import matplotlib
@@ -42,7 +43,7 @@ def get_tennis_data():
 
     return raw_tennis_df
 
-def filtered_tennis_df():
+def filtered_tennis_df
 
     raw_tennis_df = get_tennis_data()
 
@@ -71,7 +72,7 @@ def filtered_tennis_df():
     tennis_df['age'] = pd.to_numeric(tennis_df['age'])
 
     return tennis_df
-    
+
 tennis_df = filtered_tennis_df()
 
 
