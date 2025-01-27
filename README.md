@@ -15,5 +15,5 @@ A Streamlit app showing the Tennis data for the year of 2019
 2. Run the app
 
    ```
-   $ streamlit run streamlit_app.py
+   $ streamlit run streamlit_appp.py
    ```
