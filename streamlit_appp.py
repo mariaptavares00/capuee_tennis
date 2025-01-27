@@ -25,6 +25,7 @@ def get_tennis_data():
 
     # Load data from CSV
     DATA_FILENAME = Path(__file__).parent / 'data/tennis_data.csv'
+    st.write("Looking for file at:", DATA_FILENAME)
     raw_tennis_df = pd.read_csv(DATA_FILENAME)
 
     min_rank = 1
