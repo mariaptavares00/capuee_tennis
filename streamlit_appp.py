@@ -99,7 +99,7 @@ filtered_tennis_df = tennis_df[
     ]
 ''
 ''
-st.title('Age vs. Points')
+st.title('Age vs. Points interactive plot')
 # Display the data
 if not filtered_tennis_df.empty:
     st.write("Filtered Tennis Data:")
@@ -111,7 +111,7 @@ if not filtered_tennis_df.empty:
     y="points",
     color="displayName",  # Color by player name
     hover_data={
-        "displayName": True,  # Show player name
+        "Name": True,  # Show player name
         "country": True,      # Show nationality
         "points": True,       # Show points
         "age": True           # Show age
