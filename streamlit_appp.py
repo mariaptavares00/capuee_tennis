@@ -32,7 +32,7 @@ def get_tennis_data():
         st.write("Raw Tennis Data:", raw_tennis_df.head())
 
         # Columns to extract from the CSV
-        columns = ["current", "points", "displayName", "country", "countryFlag", "picture", "age"]
+        columns = ["current", "points", "displayName", "country", "countryFlag", "picture","birthPlace", "age"]
 
         # Check for missing columns in the CSV
         missing_columns = [col for col in columns if col not in raw_tennis_df.columns]
@@ -120,16 +120,40 @@ st.title('Interactive Map of Tennis Players - 2019 Rankings')
 
 st.markdown('This map shows the top {max_value} tennis players in 2019, their birth countries and ranking points')
 
-# Create the map using Plotly Express
+# geocoding birthplaces from players
+geolocator = Nominatim(user_agent="tennis_dashboard")
+
+def geocode_birthplace(row):
+    try:
+        # Geocode the birthPlace value
+        location = geolocator.geocode(row['birthPlace'])
+        if location:
+            return pd.Series([location.latitude, location.longitude])
+        else:
+            return pd.Series([None, None])
+    except Exception as e:
+        return pd.Series([None, None])
+
+# Add latitude and longitude columns to the DataFrame
+tennis_df[['latitude', 'longitude']] = tennis_df.apply(geocode_birthplace, axis=1)
+
+
+
+# Check if latitude and longitude columns exist
+if not all(col in tennis_df.columns for col in ["latitude", "longitude"]):
+    st.error("Latitude and Longitude columns are missing. Please geocode the data.")
+    st.stop()
+
+# Create the map
 fig = px.scatter_geo(
-    tennis_df,
-    locations="country",  # Geolocate using country names
-    locationmode="country names",  # Match with country names
-    size="points",  # Marker size based on points
-    hover_name="displayName",  # Show player's full name on hover
-    hover_data={"points": True, "country": True, "age": True},  # Show additional info
-    title="Top Tennis Players by Country (2019)",
-    projection="natural earth",  # Use a natural earth projection
+    filtered_tennis_df,
+    lat="latitude",  # Use latitude column for location
+    lon="longitude",  # Use longitude column for location
+    size="points",  # Use points for marker size
+    hover_name="displayName",  # Display player name on hover
+    hover_data={"points": True, "birthPlace": True, "age": True},  # Additional hover info
+    title="Top Tennis Players by Birthplace (2019)",
+    projection="natural earth"  # Use a natural earth projection
 )
 
 # Customize map layout
@@ -145,7 +169,6 @@ fig.update_layout(
 
 # Display the map in Streamlit
 st.plotly_chart(fig, use_container_width=True)
-
 
 ''
 ''
