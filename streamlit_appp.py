@@ -133,43 +133,26 @@ st.title('Interactive Map of Tennis Players - 2019 Rankings')
 
 st.markdown('This map shows the top {max_value} tennis players in 2019, their birth countries and ranking points')
 
-# geocoding birthplaces from players
-geolocator = Nominatim(user_agent="tennis_dashboard")
-
-def geocode_birthplace(row):
-    try:
-        # Geocode the birthPlace value
-        location = geolocator.geocode(row['birthPlace'])
-        if location:
-            return pd.Series([location.latitude, location.longitude])
-        else:
-            return pd.Series([None, None])
-    except Exception as e:
-        return pd.Series([None, None])
-
-# Add latitude and longitude columns to the DataFrame
-filtered_tennis_df[['latitude', 'longitude']] = filtered_tennis_df.apply(geocode_birthplace, axis=1)
-
-
-
-# Check if latitude and longitude columns exist
-if not all(col in tennis_df.columns for col in ["latitude", "longitude"]):
-    st.error("Latitude and Longitude columns are missing. Please geocode the data.")
+# Assuming tennis_df is already defined and loaded
+if not all(col in filtered_tennis_df.columns for col in ["country", "points", "displayName", "age"]):
+    st.error("Missing required columns in the tennis data.")
     st.stop()
 
-# Create the map
+st.title('Interactive Map of Tennis Players - 2019 Rankings')
+
+st.markdown(f"This map shows the top {filtered_tennis_df['current'].max()} tennis players in 2019, their birth countries, and ranking points.")
+
 fig = px.scatter_geo(
     filtered_tennis_df,
-    lat="latitude",  # Use latitude column for location
-    lon="longitude",  # Use longitude column for location
-    size="points",  # Use points for marker size
-    hover_name="displayName",  # Display player name on hover
-    hover_data={"points": True, "birthPlace": True, "age": True},  # Additional hover info
-    title="Top Tennis Players by Birthplace (2019)",
-    projection="natural earth"  # Use a natural earth projection
+    locations="country",
+    locationmode="country names",
+    size="points",
+    hover_name="displayName",
+    hover_data={"points": True, "country": True, "age": True},
+    title="Top Tennis Players by Country (2019)",
+    projection="natural earth",
 )
 
-# Customize map layout
 fig.update_layout(
     geo=dict(
         showland=True,
@@ -180,7 +163,6 @@ fig.update_layout(
     margin={"r": 0, "t": 30, "l": 0, "b": 0},
 )
 
-# Display the map in Streamlit
 st.plotly_chart(fig, use_container_width=True)
 
 ''
