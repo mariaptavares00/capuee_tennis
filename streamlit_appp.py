@@ -63,10 +63,10 @@ def get_tennis_data():
 tennis_df = get_tennis_data()
 
 # Display the DataFrame in the Streamlit app
-if not tennis_df.empty:
+#if not tennis_df.empty:
     #st.dataframe(tennis_df)
-else:
-    st.warning("No data available to display.")
+#else:
+    #st.warning("No data available to display.")
 
 
 # -----------------------------------------------------------------------------
