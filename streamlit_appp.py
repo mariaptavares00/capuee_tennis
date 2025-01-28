@@ -171,8 +171,13 @@ st.plotly_chart(fig, use_container_width=True)
 ''
 ''
 ''
+st.title('I have two lives, and all the problems I might have, I feel like I drop them once I step on to the match court.')'
 
-st.title('Thank you!')
+st.title('~ Roger Federer')
+
+''
+''
+st.title('Great game!🎾')
 
 ''
 ''
