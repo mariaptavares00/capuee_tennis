@@ -30,7 +30,7 @@ def get_tennis_data():
         raw_tennis_df = pd.read_csv(DATA_FILENAME)
 
         # Debug: Display the raw DataFrame
-        st.write("Raw Tennis Data:", raw_tennis_df.head())
+        #st.write("Raw Tennis Data:", raw_tennis_df.head())
 
         # Columns to extract from the CSV
         columns = ["current", "points", "displayName", "country", "countryFlag", "picture","birthPlace", "age"]
@@ -64,7 +64,7 @@ tennis_df = get_tennis_data()
 
 # Display the DataFrame in the Streamlit app
 if not tennis_df.empty:
-    st.dataframe(tennis_df)
+    #st.dataframe(tennis_df)
 else:
     st.warning("No data available to display.")
 
@@ -93,28 +93,39 @@ from_rank, to_rank = st.slider(
     max_value=max_value,
     value=[min_value, max_value])
 
-countries = tennis_df['country'].unique()
-
-# Check if the `countries` list is empty
-if not len(countries):
-    st.warning("Check Data for a country")
-
-# Default selection based on your provided list
-default_selected = [
-    "Spain", "Serbia", "Switzerland", "Austria", "Russia", "Greece", "Germany", "Italy",
-    "France", "Belgium", "Japan", "Argentina", "Canada", "Australia", "USA", "Bulgaria",
-    "Croatia", "Poland", "Great Britain", "Norway", "Portugal", "Lithuania", "Kazakhstan",
-    "Hungary", "Sweden", "Bolivia", "Korea", "Brazil", "South Africa", "Bosnia and Herzegovina", "Belarus"
-]
-
-# Create the multiselect widget
-selected_countries = st.multiselect(
-    'Select one or more countries:',
-    options=countries,
-    default=[country for country in default_selected if country in countries]
-)
-
+filtered_tennis_df = tennis_df[
+    (tennis_df[current'] >= min_rank) & (tennis_df['current'] <= max_rank)
+    ]
 ''
+''
+st.title('Age vs. Points')
+# Display the data
+if not tennis_df.empty:
+    st.write("Filtered Tennis Data:", tennis_df)
+
+    # Filter data for the scatter plot
+    df_age_points = tennis_df[["age", "points", "displayName"]].dropna()
+
+    # Create the plot
+    st.write("### Age vs Points Scatter Plot")
+    plt.figure(figsize=(8, 6))
+    sns.scatterplot(
+        x="age",
+        y="points",
+        hue="displayName",
+        data=df_age_points,
+        s=100,
+        palette="tab10"
+    )
+    plt.title("Age vs Points", fontsize=16)
+    plt.xlabel("Age")
+    plt.ylabel("Points")
+    plt.legend(title="Player", bbox_to_anchor=(1.05, 1), loc="upper left", fontsize=8)
+    plt.tight_layout()
+
+    # Show the plot in the Streamlit app
+    st.pyplot(plt)
+
 ''
 ''
 st.title('Interactive Map of Tennis Players - 2019 Rankings')
@@ -136,7 +147,7 @@ def geocode_birthplace(row):
         return pd.Series([None, None])
 
 # Add latitude and longitude columns to the DataFrame
-tennis_df[['latitude', 'longitude']] = tennis_df.apply(geocode_birthplace, axis=1)
+filtered_tennis_df[['latitude', 'longitude']] = filtered_tennis_df.apply(geocode_birthplace, axis=1)
 
 
 
