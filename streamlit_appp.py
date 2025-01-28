@@ -94,7 +94,7 @@ from_rank, to_rank = st.slider(
     value=[min_value, max_value])
 
 filtered_tennis_df = tennis_df[
-    (tennis_df[current'] >= min_rank) & (tennis_df['current'] <= max_rank)
+    (tennis_df['current'] >= min_rank) & (tennis_df['current'] <= max_rank)
     ]
 ''
 ''
