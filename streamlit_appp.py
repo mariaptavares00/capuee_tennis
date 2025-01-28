@@ -161,7 +161,7 @@ selected_country = st.selectbox(
 )
 
 # Filter players by selected country
-country_filtered_df = filtered_tennis_df[filtered_tennis_df["country"] == selected_country][["displayName", "points"]]
+country_filtered_df = tennis_df[tennis_df["country"] == selected_country][["displayName", "points"]]
 
 
 # Bar chart for player points within the selected country
