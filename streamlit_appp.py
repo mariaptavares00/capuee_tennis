@@ -111,7 +111,7 @@ if not filtered_tennis_df.empty:
     y="points",
     color="displayName",  # Color by player name
     hover_data={
-        "Name": True,  # Show player name
+        "displayName": True,  # Show player name
         "country": True,      # Show nationality
         "points": True,       # Show points
         "age": True           # Show age
