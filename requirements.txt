@@ -6,3 +6,4 @@ matplotlib
 requests
 geopy
 Nominatim
+seaborn
