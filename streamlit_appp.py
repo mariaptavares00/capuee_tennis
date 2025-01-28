@@ -4,7 +4,6 @@ import math
 import requests
 from pathlib import Path
 import numpy as np
-import seaborn as sns
 import matplotlib
 import matplotlib.pyplot as plt
 from datetime import date, datetime, timedelta
@@ -64,10 +63,10 @@ def get_tennis_data():
 tennis_df = get_tennis_data()
 
 # Display the DataFrame in the Streamlit app
-#if not tennis_df.empty:
+if not tennis_df.empty:
     #st.dataframe(tennis_df)
-#else:
-    #st.warning("No data available to display.")
+else:
+    st.warning("No data available to display.")
 
 
 # -----------------------------------------------------------------------------
@@ -95,17 +94,17 @@ from_rank, to_rank = st.slider(
     value=[min_value, max_value])
 
 filtered_tennis_df = tennis_df[
-    (tennis_df['current'] >= min_value) & (tennis_df['current'] <= max_value)
+    (tennis_df[current'] >= min_rank) & (tennis_df['current'] <= max_rank)
     ]
 ''
 ''
 st.title('Age vs. Points')
 # Display the data
-if not tennis_df.empty:
-    st.write("Filtered Tennis Data:", tennis_df)
+if not filtered_tennis_df.empty:
+    st.write("Filtered Tennis Data:", filtered_tennis_df)
 
     # Filter data for the scatter plot
-    df_age_points = tennis_df[["age", "points", "displayName"]].dropna()
+    df_age_points = filtered_tennis_df[["age", "points", "displayName"]].dropna()
 
     # Create the plot
     st.write("### Age vs Points Scatter Plot")
