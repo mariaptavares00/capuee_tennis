@@ -95,37 +95,45 @@ from_rank, to_rank = st.slider(
     value=[min_value, max_value])
 
 filtered_tennis_df = tennis_df[
-    (tennis_df['current'] >= tennis_df['current'].min()) & (tennis_df['current'] <= tennis_df['current'].max())
+    (tennis_df['current'] >= from_rank) & (tennis_df['current'] <= to_rank)
     ]
 ''
 ''
 st.title('Age vs. Points')
 # Display the data
 if not filtered_tennis_df.empty:
-    st.write("Filtered Tennis Data:", filtered_tennis_df)
+    st.write("Filtered Tennis Data:")
 
     # Filter data for the scatter plot
     df_age_points = filtered_tennis_df[["age", "points", "displayName"]].dropna()
 
-    # Create the plot
-    st.write("### Age vs Points Scatter Plot")
-    plt.figure(figsize=(8, 6))
-    sns.scatterplot(
-        x="age",
-        y="points",
-        hue="displayName",
-        data=df_age_points,
-        s=100,
-        palette="tab10"
-    )
-    plt.title("Age vs Points", fontsize=16)
-    plt.xlabel("Age")
-    plt.ylabel("Points")
-    plt.legend(title="Player", bbox_to_anchor=(1.05, 1), loc="upper left", fontsize=8)
-    plt.tight_layout()
+    fig = px.scatter(
+    df_age_points,
+    x="age",
+    y="points",
+    color="displayName",  # Color by player name
+    hover_data={
+        "displayName": True,  # Show player name
+        "country": True,      # Show nationality
+        "points": True,       # Show points
+        "age": True           # Show age
+    },
+    title="Age vs Points",
+    labels={"age": "Age", "points": "Points"},  # Customize axis labels
+    size_max=15,  # Maximum marker size
+)
 
-    # Show the plot in the Streamlit app
-    st.pyplot(plt)
+# Customize the layout
+fig.update_layout(
+    legend_title="Player Name",
+    title_font_size=18,
+    xaxis_title="Age",
+    yaxis_title="Points",
+    template="plotly_white",  # Use a clean theme
+)
+
+# Display the Plotly chart in Streamlit
+st.plotly_chart(fig, use_container_width=True)
 
 ''
 ''
