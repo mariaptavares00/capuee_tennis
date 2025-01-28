@@ -77,8 +77,10 @@ tennis_df = get_tennis_data()
 '''
 # 🎾 TENNIS dashboard 2019
 
-Browse Tennis data from the ESPN website. As you'll
-notice, the ranking goes from 1-150, for the year of 2019.
+Welcome to the Tennis Players Analysis Dashboard! This dashboard is designed to provide an in-depth
+look into the performance and statistics of tennis players for the year 2019, focusing on their rankings,
+ points, and country representation. Whether you’re a tennis enthusiast, a data analyst, or simply curious,
+  this interactive dashboard will take you on a journey through the world of professional tennis.
 '''
 
 # Add some spacing
