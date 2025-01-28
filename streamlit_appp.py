@@ -95,7 +95,7 @@ from_rank, to_rank = st.slider(
     value=[min_value, max_value])
 
 filtered_tennis_df = tennis_df[
-    (tennis_df['current'] >= min_value) & (tennis_df['current'] <= max_value)
+    (tennis_df['current'] >= tennis_df['current'].min()) & (tennis_df['current'] <= tennis_df['current'].max())
     ]
 ''
 ''
@@ -129,9 +129,6 @@ if not filtered_tennis_df.empty:
 
 ''
 ''
-st.title('Interactive Map of Tennis Players - 2019 Rankings')
-
-st.markdown('This map shows the top {max_value} tennis players in 2019, their birth countries and ranking points')
 
 # Assuming tennis_df is already defined and loaded
 if not all(col in filtered_tennis_df.columns for col in ["country", "points", "displayName", "age"]):
