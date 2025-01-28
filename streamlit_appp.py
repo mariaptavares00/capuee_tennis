@@ -136,12 +136,12 @@ st.plotly_chart(fig, use_container_width=True)
 ''
 ''
 # Aggregated points by country
-country_points = filtered_tennis_df.groupby("country").agg({"points": "sum"}).reset_index()
+country_points_filtered = filtered_tennis_df.groupby("country").agg({"points": "sum"}).reset_index()
 
 # Display pie chart of total points by country
 st.write("### Total Points by Country (Interactive Pie Chart)")
 fig = px.pie(
-    country_points,
+    country_points_filtered,
     values="points",
     names="country",
     title="Total Points by Country (Filtered Data)",
