@@ -138,6 +138,9 @@ st.plotly_chart(fig, use_container_width=True)
 # Aggregated points by country
 country_points_filtered = filtered_tennis_df.groupby("country").agg({"points": "sum"}).reset_index()
 
+# Filter players by selected country
+country_filtered_df = tennis_df[tennis_df["country"] == selected_country][["displayName", "points"]]
+
 # Display pie chart of total points by country
 st.write("### Total Points by Country (Interactive Pie Chart)")
 fig = px.pie(
@@ -156,12 +159,9 @@ st.plotly_chart(fig, use_container_width=True)
 st.title("Player Points by Country")
 selected_country = st.selectbox(
     "Select a country to their players:",
-    options=country_points["country"].unique(),
+    options=tennis_df["country"].unique(),
     index=0
 )
-
-# Filter players by selected country
-country_filtered_df = tennis_df[tennis_df["country"] == selected_country][["displayName", "points"]]
 
 
 # Bar chart for player points within the selected country
