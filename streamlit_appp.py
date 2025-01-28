@@ -104,11 +104,9 @@ st.title('Age vs. Points')
 if not filtered_tennis_df.empty:
     st.write("Filtered Tennis Data:")
 
-    # Filter data for the scatter plot
-    df_age_points = filtered_tennis_df[["age", "points", "displayName"]].dropna()
 
     fig = px.scatter(
-    df_age_points,
+    filtered_tennis_df,
     x="age",
     y="points",
     color="displayName",  # Color by player name
