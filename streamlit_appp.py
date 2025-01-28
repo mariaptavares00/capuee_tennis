@@ -84,23 +84,23 @@ notice, the ranking goes from 1-150, for the year of 2019.
 # Add some spacing
 ''
 ''
-
+#set boundary values for ananlysis of short or long term
 min_value = tennis_df['current'].min()
 max_value = tennis_df['current'].max()
-
+#slider to set limits
 from_rank, to_rank = st.slider(
     'Which range of ranking are you interested in?',
     min_value=min_value,
     max_value=max_value,
     value=[min_value, max_value])
-
+#filtered data according to slider choices
 filtered_tennis_df = tennis_df[
     (tennis_df['current'] >= from_rank) & (tennis_df['current'] <= to_rank)
     ]
 ''
 ''
 st.title('Age vs. Points interactive plot')
-# Display the data
+# Display the data in the plot
 if not filtered_tennis_df.empty:
     st.write("Filtered Tennis Data:")
 
@@ -109,12 +109,12 @@ if not filtered_tennis_df.empty:
     filtered_tennis_df,
     x="age",
     y="points",
-    color="displayName",  # Color by player name
+    color="displayName",  # Color change for each player
     hover_data={
-        "displayName": True,  # Show player name
-        "country": True,      # Show nationality
-        "points": True,       # Show points
-        "age": True           # Show age
+        "displayName": True,  # display name of players
+        "country": True,      # country
+        "points": True,       # total points
+        "age": True           # age
     },
     title="Age vs Points",
     labels={"age": "Age", "points": "Points"},  # Customize axis labels
@@ -135,12 +135,56 @@ st.plotly_chart(fig, use_container_width=True)
 
 ''
 ''
+# Aggregated points by country
+country_points = tennis_df.groupby("country").agg({"points": "sum"}).reset_index()
+
+# Display pie chart of total points by country
+st.title(" Total Points by Country (Interactive Pie Chart)")
+fig = px.pie(
+    country_points,
+    values="points",
+    names="country",
+    title="Total Points by Country",
+    hover_data=["points"],
+    labels={"points": "Total Points"},
+    color_discrete_sequence=px.colors.sequential.RdBu
+)
+st.plotly_chart(fig, use_container_width=True)
+
+# Country selection for detailed breakdown
+st.write("### Player Points by Country")
+selected_country = st.selectbox(
+    "Select a country to view players:",
+    options=country_points["country"].unique(),
+    index=0
+)
+
+# Filter players by selected country
+country_filtered_df = tennis_df[tennis_df["country"] == selected_country][["displayName", "points"]]
+
+
+# Bar chart for player points within the selected country
+st.write(f"### Player Points Breakdown - {selected_country}")
+fig_bar = px.bar(
+    country_filtered_df,
+    x="displayName",
+    y="points",
+    title=f"Points by Player - {selected_country}",
+    text="points",
+    labels={"displayName": "Player", "points": "Points"},
+    color="points",
+    color_continuous_scale="Blues"
+)
+st.plotly_chart(fig_bar, use_container_width=True)
+
+''
+''
 
 # Assuming tennis_df is already defined and loaded
 if not all(col in filtered_tennis_df.columns for col in ["country", "points", "displayName", "age"]):
     st.error("Missing required columns in the tennis data.")
     st.stop()
-
+#interactive map according to filtered data
 st.title('Interactive Map of Tennis Players - 2019 Rankings')
 
 st.markdown(f"This map shows the top {filtered_tennis_df['current'].max()} tennis players in 2019, their birth countries, and ranking points.")
